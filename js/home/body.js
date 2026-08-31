@@ -12,7 +12,13 @@ export async function BodyHome() {
     const bodyContainer = document.createElement("div");
     bodyContainer.className = "body-container";
     container.appendChild(bodyContainer);
+
+    const canRenderMore = await SectionInfos();
+
+    // If SectionInfos returns false (account new), we stop rendering further sections
     await SectionInfos();
+    if (!canRenderMore) return;
+
     await AuditsSect();
     await ProgressSect()
 }
@@ -35,8 +41,9 @@ async function SectionInfos() {
     if (!level.data.transaction[0]) {
         LogOut()
         failureToast("We don't have any information about you")
-        return
+        return false
     }
+    
     level = level.data.transaction[0].amount;
 
     let datatransaction = await GetInfo(queries.Transactions);

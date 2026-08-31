@@ -3,8 +3,6 @@ import { displayHome } from "./home/display.js";
 import { GetInfo } from "./home/header.js";
 import { queries } from "./gql/queries.js";
 
-window.history.pushState(null, "", "/")
-
 async function init() {
     const token = localStorage.getItem("token")
     if (!token) {
