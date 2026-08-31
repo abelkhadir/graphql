@@ -2,14 +2,12 @@ import { BodyHome } from "./body.js";
 import { Header } from "./header.js";
 
 export async function displayHome() {
-  const link = document.getElementById("css-link");
-  if (link) {
-    link.href = "/css/home.css";
-  }
+  // Empty out container
   const container = document.querySelector(".container");
-
-  container.removeAttribute("style");
+  container.className = "container home-page";
   container.innerHTML = "";
+
+  // Display all
   Header();
   BodyHome();
 }

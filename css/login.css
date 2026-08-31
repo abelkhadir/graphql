@@ -71,22 +71,22 @@ body {
 }
 
 /* 3. ANIMATED BACKGROUND */
-.container {
+.container.login-page {
     padding: var(--space-lg);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     position: relative;
-    background: 
+    background:
         radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
         radial-gradient(ellipse at bottom right, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
         var(--bg-dark);
 }
 
 /* Floating Orbs Background */
-.container::before,
-.container::after {
+.container.login-page::before,
+.container.login-page::after {
     content: '';
     position: absolute;
     border-radius: 50%;
@@ -96,7 +96,7 @@ body {
     pointer-events: none;
 }
 
-.container::before {
+.container.login-page::before {
     width: 400px;
     height: 400px;
     background: var(--accent-glow);
@@ -105,7 +105,7 @@ body {
     animation-delay: 0s;
 }
 
-.container::after {
+.container.login-page::after {
     width: 300px;
     height: 300px;
     background: rgba(255, 255, 255, 0.14);
@@ -445,18 +445,18 @@ body {
 
 /* Tablets (768px) */
 @media screen and (max-width: 768px) {
-    .container {
+    .container.login-page {
         padding: var(--space-md);
     }
-    
-    .container::before {
+
+    .container.login-page::before {
         width: 300px;
         height: 300px;
         top: -50px;
         left: -50px;
     }
-    
-    .container::after {
+
+    .container.login-page::after {
         width: 200px;
         height: 200px;
     }
@@ -482,14 +482,14 @@ body {
 
 /* Mobile (480px) */
 @media screen and (max-width: 480px) {
-    .container {
+    .container.login-page {
         padding: var(--space-sm);
         align-items: flex-start;
         padding-top: var(--space-xl);
     }
-    
-    .container::before,
-    .container::after {
+
+    .container.login-page::before,
+    .container.login-page::after {
         display: none; /* Hide orbs on mobile for performance */
     }
     

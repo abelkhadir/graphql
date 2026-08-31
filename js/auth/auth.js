@@ -1,63 +1,76 @@
 import { displayHome } from "../home/display.js";
 import { failureToast, succedToast } from "../notif/toast.js";
 
+const SIGNIN_URL = "https://learn.zone01oujda.ma/api/auth/signin";
+
+const loginTemplate = `
+    <form id="login-form" novalidate>
+        <img src="/images/logo.png" alt="Logo">
+        <p>Welcome, <span>Back!</span></p>
+        <div class="input-group">
+            <label for="login">Login</label>
+            <input id="login" type="text" name="login" required
+                   autocomplete="username"
+                   placeholder="Type your username or email...">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required
+                   autocomplete="current-password"
+                   placeholder="Type your password...">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+`;
+
 export function LoginForm() {
-    const link = document.getElementById('css-link')
-    if (link) {
-        link.href = "/css/login.css"
-    }
-    const container = document.querySelector('.container')
-    container.style.cssText = `
-        display:flex;
-        justify-content:center;
-        align-items:center;
-    `
-    container.innerHTML = `
-        <form id="login-form">
-            <img src="/images/logo.png">
-            <p>Welcome, <span>Back!</span></p>
-            <div>
-                <label for="login">Login: </label>
-                <input type="text" name="login" required placeholder="Type your username or email...">
-            </div>
-           <div>
-                <label for="password">Password: </label>
-                <input type="password" name="password" placeholder="Type your password..." required>
-           </div>
-            <button>Submit</button>
-        </form>
-    `
-    document.getElementById('login-form').addEventListener('submit', LoginHandler)
+    const container = document.querySelector('.container');
+    container.className = 'container login-page';
+    container.innerHTML = loginTemplate;
+
+    container.querySelector('#login-form').addEventListener('submit', LoginHandler);
 }
 
 export function LogOut() {
-    localStorage.removeItem('token')
-    const circle = document.querySelector('.circle')
-    circle.style.display = 'none'
-    LoginForm()
+    localStorage.removeItem('token');
+
+    const circle = document.querySelector('.circle');
+    if (circle) circle.style.display = 'none';
+
+    LoginForm();
 }
 
 async function LoginHandler(e) {
-    e.preventDefault()
-    const login = e.target.login.value
-    const password = e.target.password.value
+    e.preventDefault();
+
+    const form = e.target;
+    const login = form.login.value.trim();
+    const password = form.password.value;
+
+    form.classList.add('loading');
+
     try {
-        const resp = await fetch("https://learn.zone01oujda.ma/api/auth/signin", {
+        const resp = await fetch(SIGNIN_URL, {
             method: "POST",
             headers: {
                 "Authorization": `Basic ${btoa(`${login}:${password}`)}`,
-                "Content-Type": "application/json"
-            }
-        })
-        const token = await resp.json()
+                "Content-Type": "application/json",
+            },
+        });
+
+        const data = await resp.json();
+
         if (!resp.ok) {
-            failureToast(token.error)
-        } else {
-            localStorage.setItem('token', token)
-            succedToast(`Welcome ${login} to your profile`)
-            displayHome()
+            failureToast(data.error);
+            return;
         }
+
+        localStorage.setItem('token', data);
+        succedToast(`Welcome ${login} to your profile`);
+        displayHome();
     } catch (err) {
-        failureToast(`There was an error, please try later: ${err}`)
+        failureToast(`There was an error, please try later: ${err}`);
+    } finally {
+        form.classList.remove('loading');
     }
 }

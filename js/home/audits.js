@@ -1,4 +1,5 @@
 import { VerifyError } from "../../utils/error.js";
+import { convertXPToReadable } from "../../utils/xp.js";
 import { queries } from "../gql/queries.js";
 import { GetInfo } from "./header.js";
 
@@ -11,10 +12,18 @@ export async function AuditsSect() {
 
   let ratio = data?.data?.user[0].auditRatio.toFixed(1);
   let history = data?.data?.user[0].audits
+  const totalUp = data?.data?.user[0].totalUp || 0;
+  const totalDown = data?.data?.user[0].totalDown || 0;
+  const auditCount = data?.data?.user[0].audits_aggregate?.aggregate?.count ?? history.length;
 
   auditsection.innerHTML = /*html*/ `
         <div class="historyAudit">
             <h1>Audit Ratio: <span class="audit-ratio" id="auditRatio">${ratio}</span></h1>
+            <div class="audit-xp">
+                <p><span>Done</span>${convertXPToReadable(totalUp)}</p>
+                <p><span>Received</span>${convertXPToReadable(totalDown)}</p>
+            </div>
+            <h1>History (${auditCount})</h1>
             <div class="audit-list">
             </div>
           </div>
@@ -44,11 +53,13 @@ export async function AuditsSect() {
 
     const leader = audit.group.captainLogin;
     const projectName = audit.group.pathByPath.object.name;
+    const projectType = audit.group.pathByPath.object.type;
     const status = audit.closureType;
+    const date = new Date(audit.createdAt).toLocaleDateString();
 
     auditDiv.innerHTML = `
         <div class="audit-info">
-            Leader: ${leader} | Project: ${projectName} | Status: ${status}
+            Leader: ${leader} | Project: ${projectName} | Type: ${projectType} | Status: ${status} | ${date}
         </div>
     `;
     auditList.appendChild(auditDiv)

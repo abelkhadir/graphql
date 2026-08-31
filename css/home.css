@@ -392,6 +392,34 @@ body {
     margin-bottom: var(--space-md);
 }
 
+.audit-sec .historyAudit .audit-xp {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.audit-sec .historyAudit .audit-xp p {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-dark);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.audit-sec .historyAudit .audit-xp p span {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .audit-sec .historyAudit .audit-list {
     padding: var(--space-sm);
     background: var(--bg-dark);

@@ -5,6 +5,7 @@ export const queries = {
           login
           attrs
           avatarUrl
+          createdAt
           events{
             cohorts{
               userId
@@ -55,6 +56,13 @@ export const queries = {
   auditInfo: `{
   user {
     auditRatio
+    totalUp
+    totalDown
+    audits_aggregate(where: {closureType: {_in: [succeeded, failed]}, group: {eventId: {_eq: 41}}}) {
+      aggregate {
+        count
+      }
+    }
     audits(
       where: {closureType: {_in: [succeeded, failed]}, group: {eventId: {_eq: 41}}},
       order_by :{createdAt: desc}

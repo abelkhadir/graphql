@@ -22,15 +22,25 @@ function showToast(text, type) {
     }
     const toast = document.createElement('div')
     toast.className = `${type}-toast`
-    toast.innerHTML = `
-        <div>${type === 'failure' ? FAILURE_ICON : SUCCESS_ICON}</div>
-        <p>${text}</p>
-        <div class="close">${CLOSE_SVG}</div>
-    `
+
+    // Trusted, hard-coded SVG markup stays as innerHTML.
+    const icon = document.createElement('div')
+    icon.innerHTML = type === 'failure' ? FAILURE_ICON : SUCCESS_ICON
+
+    // Server-/user-supplied text goes through textContent (no HTML parsing).
+    const message = document.createElement('p')
+    message.textContent = text
+
+    const close = document.createElement('div')
+    close.className = 'close'
+    close.innerHTML = CLOSE_SVG
+
+    toast.append(icon, message, close)
     par.appendChild(toast)
+
     const remove = () => { toast.remove(); if (!par.children.length) par.remove() }
     setTimeout(remove, type === 'failure' ? 6000 : 3000)
-    toast.querySelector('.close').addEventListener('click', remove)
+    close.addEventListener('click', remove)
 }
 
 export const failureToast = (text) => showToast(text, 'failure')

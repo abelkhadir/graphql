@@ -16,7 +16,6 @@ GRAPHQL/
 │ └── login.css # Login page styles
 │
 ├── images
-│ ├── icon.avif # App icon
 │ ├── logo.png # Logo
 │ └── noun-to-do-list-5340944.svg
 │
@@ -66,15 +65,7 @@ GRAPHQL/
 
 ---
 
-##  Getting Started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/YounsseAmazzal/graphql
-````
-
-### 2. Run the project
+### Run the project
 
 * Install the **Live Server** extension in your code editor (e.g., VS Code)
 * Open the project folder
