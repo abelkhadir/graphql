@@ -1,4 +1,3 @@
-
 # GraphQL Dashboard
 
 This project is a GraphQL-based web dashboard built with vanilla JavaScript, HTML, and CSS.  
@@ -77,6 +76,5 @@ npx serve
 
 ### You Could also see it on 
 ```
-https://graphql01-gilt.vercel.app
 ```
 ---
